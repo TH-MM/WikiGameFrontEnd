@@ -1,0 +1,222 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-800 font-sans antialiased;
+  }
+}
+
+/* Wikipedia classic Vector Skin styles */
+.wiki-content {
+  font-family: sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #202122;
+  background-color: #ffffff;
+  padding: 1.5em; /* Just to give some padding to the paper wrapper */
+}
+
+/* Spacing for Paragraphs */
+.wiki-content p {
+  margin: 1.2em 0;
+  line-height: 1.8;
+}
+
+.wiki-content h1, .wiki-content h2, .wiki-content h3, .wiki-content h4, .wiki-content h5, .wiki-content h6 {
+  color: #000;
+  background: none;
+  font-weight: normal;
+  margin: 0;
+  overflow: hidden;
+  padding-top: 0.5em;
+  padding-bottom: 0;
+}
+
+.wiki-content h1, .wiki-content h2 { 
+  font-family: 'Linux Libertine', 'Georgia', 'Times', serif;
+  border-bottom: 1px solid #a2a9b1;
+}
+
+.wiki-content h1 {
+  font-size: 2.2em;
+  margin: 0 0 0.6em 0;
+  padding-top: 0;
+}
+
+.wiki-content h2 { 
+  font-size: 1.6em; 
+  margin: 2em 0 0.8em 0;
+  padding-top: 0.5em;
+}
+
+.wiki-content h3 { 
+  font-size: 1.3em; 
+  font-weight: bold; 
+  font-family: sans-serif; 
+  margin: 1.5em 0 0.6em 0;
+}
+
+.wiki-content h4 { 
+  font-size: 1.1em; 
+  font-weight: bold; 
+  font-family: sans-serif; 
+  margin: 1.2em 0 0.4em 0;
+}
+
+.wiki-content a {
+  text-decoration: none;
+  color: #0645ad;
+}
+
+.wiki-content a:visited {
+  color: #0b0080;
+}
+
+.wiki-content a:hover {
+  text-decoration: underline;
+}
+
+.wiki-content a.new {
+  color: #ba0000; /* Red links */
+}
+
+.wiki-content ul {
+  list-style-type: disc;
+  list-style-image: none;
+  margin: 0.3em 1.6em 0 0; /* RTL margin */
+  padding: 0;
+}
+
+.wiki-content ol {
+  list-style-type: decimal;
+  margin: 0.3em 1.6em 0 0;
+  padding: 0;
+}
+
+.wiki-content li { 
+  margin-bottom: 0.1em; 
+}
+
+/* Infoboxes */
+.wiki-content .infobox {
+  border: 1px solid #a2a9b1;
+  border-spacing: 3px;
+  background-color: #f8f9fa;
+  color: black;
+  margin-bottom: 1em;
+  margin-inline-start: 1.5em;
+  padding: 0.2em;
+  float: inline-end;
+  clear: inline-end;
+  font-size: 88%;
+  line-height: 1.5em;
+  width: 22em;
+}
+.wiki-content .infobox th {
+  vertical-align: top;
+  text-align: inherit;
+}
+
+/* Navboxes */
+.wiki-content .navbox {
+  border: 1px solid #a2a9b1;
+  background-color: #f8f9fa;
+  clear: both;
+  font-size: 88%;
+  text-align: center;
+  padding: 1px;
+  margin: 1em auto 0;
+}
+
+/* Thumbnails */
+.wiki-content .thumb {
+  margin-bottom: 0.5em;
+  width: auto;
+  background-color: transparent;
+}
+.wiki-content .thumbinner {
+  border: 1px solid #c8ccd1;
+  padding: 3px;
+  background-color: #f8f9fa;
+  font-size: 94%;
+  text-align: center;
+  overflow: hidden;
+}
+.wiki-content .tleft {
+  float: inline-start;
+  clear: inline-start;
+  margin: 0.5em;
+  margin-inline-end: 1.5em;
+}
+.wiki-content .tright {
+  float: inline-end;
+  clear: inline-end;
+  margin: 0.5em;
+  margin-inline-start: 1.5em;
+}
+.wiki-content .thumbcaption {
+  border: none;
+  text-align: inherit;
+  line-height: 1.4em;
+  padding: 3px !important;
+  font-size: 94%;
+}
+.wiki-content img {
+  border: 0;
+  vertical-align: middle;
+}
+
+/* Table of contents */
+.wiki-content .toc, .wiki-content #toc {
+  border: 1px solid #a2a9b1;
+  background-color: #f8f9fa;
+  display: inline-block;
+  padding: 7px;
+  font-size: 95%;
+}
+.wiki-content .toc h2 { 
+  border-bottom: none; 
+  font-size: 100%; 
+  font-family: sans-serif; 
+  font-weight: bold; 
+  margin: 0; 
+  padding: 0; 
+}
+.wiki-content .toc ul { list-style-type: none; margin: 0; padding: 0; }
+.wiki-content .toc li { margin-bottom: 0; padding-right: 1.5em; }
+
+/* Wikitables */
+.wiki-content .wikitable {
+  background-color: #f8f9fa;
+  color: #202122;
+  margin: 1em 0;
+  border: 1px solid #a2a9b1;
+  border-collapse: collapse;
+}
+.wiki-content .wikitable > tr > th,
+.wiki-content .wikitable > * > tr > th {
+  background-color: #eaecf0;
+  text-align: center;
+}
+.wiki-content .wikitable > tr > th,
+.wiki-content .wikitable > tr > td,
+.wiki-content .wikitable > * > tr > th,
+.wiki-content .wikitable > * > tr > td {
+  border: 1px solid #a2a9b1;
+  padding: 0.2em 0.4em;
+}
+
+/* Hide mw-editsection, mw-empty-elt */
+.wiki-content .mw-empty-elt, 
+.wiki-content .mw-editsection,
+.wiki-content .mw-editsection-bracket {
+  display: none !important;
+}
+
+/* General clearing */
+.wiki-content::after {
+  content: "";
+  display: table;
+  clear: both;
+}
