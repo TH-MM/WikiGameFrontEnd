@@ -27,7 +27,15 @@ const translations = {
     no_scores: "لا توجد نتائج بعد",
     thinking_phase: "مرحلة التخطيط",
     starts_in: "تبدأ الجولة خلال",
-    intro_text: "انتقل من مقالة ويكيبيديا إلى الهدف باستخدام الروابط الداخلية فقط. تنافس ضد الآخرين في الوقت الفعلي بأسرع وقت وأقل عدد نقرات!"
+    intro_text: "انتقل من مقالة ويكيبيديا إلى الهدف باستخدام الروابط الداخلية فقط. تنافس ضد الآخرين في الوقت الفعلي بأسرع وقت وأقل عدد نقرات!",
+    genre: "التصنيف",
+    genre_History: "تاريخ",
+    genre_Geography: "جغرافيا",
+    genre_Movies: "أفلام",
+    genre_Music: "موسيقى",
+    genre_Sports: "رياضة",
+    genre_Science: "علوم",
+    genre_People: "أعلام"
   },
   en: {
     app_title: "Wiki Game",
@@ -57,7 +65,15 @@ const translations = {
     no_scores: "No scores yet",
     thinking_phase: "Planning Phase",
     starts_in: "Round starts in",
-    intro_text: "Navigate from a Wikipedia article to the target using only internal links. Compete against others in real-time for the fastest time and fewest clicks!"
+    intro_text: "Navigate from a Wikipedia article to the target using only internal links. Compete against others in real-time for the fastest time and fewest clicks!",
+    genre: "Category",
+    genre_History: "History",
+    genre_Geography: "Geography",
+    genre_Movies: "Movies",
+    genre_Music: "Music",
+    genre_Sports: "Sports",
+    genre_Science: "Science",
+    genre_People: "People"
   },
   fr: {
     app_title: "Jeu Wikipédia",
@@ -87,7 +103,15 @@ const translations = {
     no_scores: "Pas encore de scores",
     thinking_phase: "Phase de Réflexion",
     starts_in: "La manche commence dans",
-    intro_text: "Naviguez d'un article Wikipédia vers la cible en utilisant uniquement des liens internes. Affrontez les autres en temps réel !"
+    intro_text: "Naviguez d'un article Wikipédia vers la cible en utilisant uniquement des liens internes. Affrontez les autres en temps réel !",
+    genre: "Catégorie",
+    genre_History: "Histoire",
+    genre_Geography: "Géographie",
+    genre_Movies: "Cinéma",
+    genre_Music: "Musique",
+    genre_Sports: "Sport",
+    genre_Science: "Science",
+    genre_People: "Personnalité"
   }
 };
 

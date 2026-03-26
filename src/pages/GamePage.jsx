@@ -33,6 +33,9 @@ export default function GamePage() {
   const [roundEnded, setRoundEnded] = useState(false);
   const [globalTimeLeft, setGlobalTimeLeft] = useState(165);
   const [isPrepPhase, setIsPrepPhase] = useState(false);
+  const [roundGenre, setRoundGenre] = useState(null); // Keep for legacy if needed, but we'll use below
+  const [startGenre, setStartGenre] = useState(null);
+  const [targetGenre, setTargetGenre] = useState(null);
   
   // Multiplayer
   const [leaderboard, setLeaderboard] = useState([]);
@@ -52,6 +55,8 @@ export default function GamePage() {
         
         setLeaderboard(data.leaderboard);
         setGlobalTimeLeft(data.time_remaining);
+        setStartGenre(data.start_genre);
+        setTargetGenre(data.target_genre);
         
         const inPrep = data.time_remaining > 150;
         setIsPrepPhase(inPrep);
@@ -189,6 +194,8 @@ export default function GamePage() {
               history={history}
               onGoBack={handleGoBack}
               lang={language}
+              startGenre={startGenre}
+              targetGenre={targetGenre}
             />
 
           {isGameOver ? (

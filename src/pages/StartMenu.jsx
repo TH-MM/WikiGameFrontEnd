@@ -195,6 +195,21 @@ export default function StartMenu() {
                 </span>
               </div>
             </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
+              {roundInfo.round.start_genre && (
+                <div className="flex items-center gap-1.5 bg-emerald-100/50 text-emerald-800 px-3 py-1.5 rounded-xl text-[0.65rem] font-black border border-emerald-200/50 shadow-sm">
+                  <MapPin className="w-3 h-3" />
+                  <span>{t('genre')}: {t('genre_' + roundInfo.round.start_genre)}</span>
+                </div>
+              )}
+              {roundInfo.round.target_genre && (
+                <div className="flex items-center gap-1.5 bg-rose-100/50 text-rose-800 px-3 py-1.5 rounded-xl text-[0.65rem] font-black border border-rose-200/50 shadow-sm">
+                  <Target className="w-3 h-3" />
+                  <span>{t('genre')}: {t('genre_' + roundInfo.round.target_genre)}</span>
+                </div>
+              )}
+            </div>
             
             <div className={`flex flex-col gap-3 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
               <div className="bg-white p-3 rounded-xl border border-emerald-100 flex items-center gap-3 shadow-sm">
