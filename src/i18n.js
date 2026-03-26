@@ -1,6 +1,6 @@
 const translations = {
   en: {
-    app_title: "Wiki Game",
+    app_title: "WikiGame",
     play_now: "Play Now",
     loading: "Loading...",
     enter_name: "Enter your name to start",
