@@ -18,8 +18,7 @@ export default function GamePage() {
   const startTitle = location.state?.startTitle;
   const targetTitle = location.state?.targetTitle;
   const playerId = location.state?.playerId;
-  const language = location.state?.language || 'ar';
-  const { t } = useTranslation(language);
+  const { t } = useTranslation();
   
   const [currentTitle, setCurrentTitle] = useState(startTitle);
   const [articleHtml, setArticleHtml] = useState(null);
@@ -34,8 +33,6 @@ export default function GamePage() {
   const [globalTimeLeft, setGlobalTimeLeft] = useState(165);
   const [isPrepPhase, setIsPrepPhase] = useState(false);
   const [roundGenre, setRoundGenre] = useState(null); // Keep for legacy if needed, but we'll use below
-  const [startGenre, setStartGenre] = useState(null);
-  const [targetGenre, setTargetGenre] = useState(null);
   
   // Multiplayer
   const [leaderboard, setLeaderboard] = useState([]);
@@ -50,13 +47,11 @@ export default function GamePage() {
     let active = true;
     const fetchLeaderboard = async () => {
       try {
-        const data = await getLeaderboard(language);
+        const data = await getLeaderboard();
         if (!active) return;
         
         setLeaderboard(data.leaderboard);
         setGlobalTimeLeft(data.time_remaining);
-        setStartGenre(data.start_genre);
-        setTargetGenre(data.target_genre);
         
         const inPrep = data.time_remaining > 150;
         setIsPrepPhase(inPrep);
@@ -75,7 +70,7 @@ export default function GamePage() {
     };
 
     fetchLeaderboard(); // Initial fetch
-    const interval = setInterval(fetchLeaderboard, 2000);
+    const interval = setInterval(fetchLeaderboard, 5000);
     return () => { active = false; clearInterval(interval); };
   }, [roundId]);
 
@@ -109,7 +104,7 @@ export default function GamePage() {
       }
 
       try {
-        const article = await getArticleContent(currentTitle, language);
+        const article = await getArticleContent(currentTitle);
         if (!active) return;
 
         // If Wikipedia redirected us to the target title
@@ -130,7 +125,7 @@ export default function GamePage() {
       } catch (err) {
         console.error(err);
         if (!active) return;
-        setError("فشل في تحميل المقالة. قد يكون الرابط معطوباً أو غير موجود.");
+        setError("Failed to load article. The link might be broken or the page does not exist.");
       } finally {
         if (active) setLoading(false);
       }
@@ -193,9 +188,6 @@ export default function GamePage() {
               timeElapsed={globalTimeLeft} 
               history={history}
               onGoBack={handleGoBack}
-              lang={language}
-              startGenre={startGenre}
-              targetGenre={targetGenre}
             />
 
           {isGameOver ? (
@@ -248,7 +240,6 @@ export default function GamePage() {
           <Leaderboard 
             leaderboard={leaderboard} 
             currentPlayerId={playerId} 
-            lang={language}
           />
         </div>
 

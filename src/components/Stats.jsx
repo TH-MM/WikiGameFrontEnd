@@ -1,8 +1,8 @@
 import { Clock, MousePointerClick, Target, MapPin, Undo2 } from 'lucide-react';
 import { useTranslation } from '../i18n';
 
-export default function Stats({ currentTitle, targetTitle, clicks, timeElapsed, history = [], onGoBack, lang = 'ar', startGenre, targetGenre }) {
-  const { t } = useTranslation(lang);
+export default function Stats({ currentTitle, targetTitle, clicks, timeElapsed, history = [], onGoBack }) {
+  const { t } = useTranslation();
   const formatTime = (seconds) => {
     const m = Math.floor(seconds / 60).toString().padStart(2, '0');
     const s = (seconds % 60).toString().padStart(2, '0');
@@ -13,20 +13,6 @@ export default function Stats({ currentTitle, targetTitle, clicks, timeElapsed, 
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-6 transition-all duration-300">
-      <div className="flex flex-wrap items-center gap-2 mb-3">
-        {startGenre && (
-          <div className="flex items-center gap-1.5 bg-slate-50 px-2 py-1 rounded-lg border border-slate-100 text-[0.65rem] font-bold text-slate-500 shadow-sm animate-in fade-in slide-in-from-top-1">
-            <MapPin className="w-3 h-3 text-primary-500" />
-            <span>{t('genre')}: {t('genre_' + startGenre)}</span>
-          </div>
-        )}
-        {targetGenre && (
-          <div className="flex items-center gap-1.5 bg-primary-50 px-2 py-1 rounded-lg border border-primary-100 text-[0.65rem] font-bold text-primary-600 shadow-sm animate-in fade-in slide-in-from-top-1">
-            <Target className="w-3 h-3 text-rose-500" />
-            <span>{t('genre')}: {t('genre_' + targetGenre)}</span>
-          </div>
-        )}
-      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Current Article */}
         <div className="flex items-start justify-between gap-2 p-3 bg-slate-50 rounded-lg border border-slate-100">

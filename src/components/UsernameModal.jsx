@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { User } from 'lucide-react';
 import { useTranslation } from '../i18n';
 
-export default function UsernameModal({ onSubmit, lang = 'ar' }) {
-  const { t } = useTranslation(lang);
+export default function UsernameModal({ onSubmit }) {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
 

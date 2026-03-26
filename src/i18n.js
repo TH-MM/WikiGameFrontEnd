@@ -1,42 +1,4 @@
 const translations = {
-  ar: {
-    app_title: "لعبة ويكيبيديا",
-    play_now: "العب الآن",
-    loading: "جاري التحميل",
-    enter_name: "أدخل اسمك للبدء",
-    submit: "دخول",
-    welcome_back: "مرحباً بك مجدداً،",
-    change_name: "هل ترغب بتغيير اسمك؟ تسجيل الخروج",
-    active_round: "جولة نشطة حالياً!",
-    start_point: "نقطة البداية",
-    target_goal: "الهدف المطلوب",
-    time_left: "الوقت المتبقي",
-    clicks: "النقرات",
-    current_page: "الصفحة الحالية",
-    target: "الهدف",
-    leaderboard: "لوحة المتصدرين",
-    player: "اللاعب",
-    score: "النقاط",
-    status: "الحالة",
-    back: "تراجع",
-    win_title: "🎉 أحسنت!",
-    win_desc: "لقد وصلت إلى الهدف بنجاح! راجع لوحة المتصدرين لترى ترتيبك.",
-    lost_title: "⏳ انتهى الوقت!",
-    lost_desc: "انتهت الجولة العالمية دون الوصول للهدف.",
-    play_again: "العب جولة جديدة",
-    no_scores: "لا توجد نتائج بعد",
-    thinking_phase: "مرحلة التخطيط",
-    starts_in: "تبدأ الجولة خلال",
-    intro_text: "انتقل من مقالة ويكيبيديا إلى الهدف باستخدام الروابط الداخلية فقط. تنافس ضد الآخرين في الوقت الفعلي بأسرع وقت وأقل عدد نقرات!",
-    genre: "التصنيف",
-    genre_History: "تاريخ",
-    genre_Geography: "جغرافيا",
-    genre_Movies: "أفلام",
-    genre_Music: "موسيقى",
-    genre_Sports: "رياضة",
-    genre_Science: "علوم",
-    genre_People: "أعلام"
-  },
   en: {
     app_title: "Wiki Game",
     play_now: "Play Now",
@@ -66,58 +28,12 @@ const translations = {
     thinking_phase: "Planning Phase",
     starts_in: "Round starts in",
     intro_text: "Navigate from a Wikipedia article to the target using only internal links. Compete against others in real-time for the fastest time and fewest clicks!",
-    genre: "Category",
-    genre_History: "History",
-    genre_Geography: "Geography",
-    genre_Movies: "Movies",
-    genre_Music: "Music",
-    genre_Sports: "Sports",
-    genre_Science: "Science",
-    genre_People: "People"
-  },
-  fr: {
-    app_title: "Jeu Wikipédia",
-    play_now: "Jouer Maintenant",
-    loading: "Chargement...",
-    enter_name: "Entrez votre nom pour commencer",
-    submit: "Entrer",
-    welcome_back: "Content de vous revoir,",
-    change_name: "Changer de nom ? Déconnexion",
-    active_round: "Manche Active !",
-    start_point: "Point de départ",
-    target_goal: "Objectif Cible",
-    time_left: "Temps restant",
-    clicks: "Clics",
-    current_page: "Page Actuelle",
-    target: "Objectif",
-    leaderboard: "Classement",
-    player: "Joueur",
-    score: "Score",
-    status: "Statut",
-    back: "Retour",
-    win_title: "🎉 Bravo !",
-    win_desc: "Vous avez atteint l'objectif ! Consultez le classement pour voir votre rang.",
-    lost_title: "⏳ Temps écoulé !",
-    lost_desc: "La manche globale s'est terminée avant que vous n'atteigniez l'objectif.",
-    play_again: "Nouvelle Manche",
-    no_scores: "Pas encore de scores",
-    thinking_phase: "Phase de Réflexion",
-    starts_in: "La manche commence dans",
-    intro_text: "Naviguez d'un article Wikipédia vers la cible en utilisant uniquement des liens internes. Affrontez les autres en temps réel !",
-    genre: "Catégorie",
-    genre_History: "Histoire",
-    genre_Geography: "Géographie",
-    genre_Movies: "Cinéma",
-    genre_Music: "Musique",
-    genre_Sports: "Sport",
-    genre_Science: "Science",
-    genre_People: "Personnalité"
   }
 };
 
-export const useTranslation = (lang) => {
+export const useTranslation = () => {
   const t = (key) => {
-    return translations[lang]?.[key] || translations['en'][key] || key;
+    return translations['en']?.[key] || key;
   };
   return { t };
 };

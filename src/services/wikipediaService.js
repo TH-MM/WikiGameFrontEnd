@@ -1,9 +1,14 @@
 import axios from "axios";
 
+const imageCache = new Map();
+
 /**
  * Fetch thumbnail image for a Wikipedia article.
  */
-export const getArticleImage = async (title, lang = 'ar') => {
+export const getArticleImage = async (title) => {
+    if (imageCache.has(title)) return imageCache.get(title);
+    
+    const lang = 'en';
     try {
         const response = await axios.get(`https://${lang}.wikipedia.org/w/api.php`, {
             params: {
@@ -18,15 +23,17 @@ export const getArticleImage = async (title, lang = 'ar') => {
         const pages = response.data?.query?.pages;
         if (!pages) return null;
         const pageId = Object.keys(pages)[0];
-        if (pages[pageId]?.thumbnail?.source) {
-            return pages[pageId].thumbnail.source;
-        }
-        return null;
+        const source = pages[pageId]?.thumbnail?.source || null;
+        
+        imageCache.set(title, source);
+        return source;
     } catch (e) {
         console.error("Error fetching article image:", e);
         return null;
     }
 };
+
+const API_BASE = "https://en.wikipedia.org/w/api.php";
 
 /**
  * Fetch a random Wikipedia article title.
@@ -56,7 +63,8 @@ export const getRandomArticle = async () => {
  * @param {string} title 
  * @param {string} lang 
  */
-export const getArticleContent = async (title, lang = 'ar') => {
+export const getArticleContent = async (title) => {
+    const lang = 'en';
     try {
         const response = await axios.get(`https://${lang}.wikipedia.org/w/api.php`, {
             params: {

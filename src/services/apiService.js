@@ -8,7 +8,7 @@ const api = axios.create({
     }
 });
 
-export const getCurrentRound = (lang = 'ar') => api.get(`/round/current?lang=${lang}`).then(res => res.data);
+export const getCurrentRound = () => api.get('/round/current?lang=en').then(res => res.data);
 export const joinGame = (name) => api.post('/player/join', { name }).then(res => res.data);
 export const updateProgress = (data) => api.post('/progress/update', data).then(res => res.data);
-export const getLeaderboard = (lang = 'ar') => api.get(`/leaderboard/current?lang=${lang}`).then(res => res.data);
+export const getLeaderboard = () => api.get('/leaderboard/current?lang=en').then(res => res.data);

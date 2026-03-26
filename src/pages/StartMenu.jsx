@@ -7,8 +7,7 @@ import { getArticleImage } from '../services/wikipediaService';
 import { useTranslation } from '../i18n';
 
 export default function StartMenu() {
-  const [language, setLanguage] = useState(localStorage.getItem('wiki_player_lang') || 'ar');
-  const { t } = useTranslation(language);
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [roundInfo, setRoundInfo] = useState(null);
@@ -25,7 +24,7 @@ export default function StartMenu() {
     let active = true;
     const fetchRound = async () => {
       try {
-        const data = await getCurrentRound(language);
+        const data = await getCurrentRound();
         if (active) {
           setRoundInfo(data);
           setTimeLeft(data.time_remaining);
@@ -36,19 +35,19 @@ export default function StartMenu() {
     };
 
     fetchRound();
-    const interval = setInterval(fetchRound, 3000);
+    const interval = setInterval(fetchRound, 5000);
     return () => { active = false; clearInterval(interval); };
-  }, [language]);
+  }, []);
 
   useEffect(() => {
     if (roundInfo?.round) {
-      getArticleImage(roundInfo.round.start_page, language).then(setStartImage);
-      getArticleImage(roundInfo.round.target_page, language).then(setTargetImage);
+      getArticleImage(roundInfo.round.start_page).then(setStartImage);
+      getArticleImage(roundInfo.round.target_page).then(setTargetImage);
     } else {
       setStartImage(null);
       setTargetImage(null);
     }
-  }, [roundInfo?.round, language]);
+  }, [roundInfo?.round?.start_page, roundInfo?.round?.target_page]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -80,8 +79,7 @@ export default function StartMenu() {
             roundId: finalRound.round.id,
             startTitle: finalRound.round.start_page, 
             targetTitle: finalRound.round.target_page,
-            playerId: savedId,
-            language: language
+            playerId: savedId
           } 
         });
       } catch (error) {
@@ -119,8 +117,7 @@ export default function StartMenu() {
           roundId: finalRound.round.id,
           startTitle: finalRound.round.start_page, 
           targetTitle: finalRound.round.target_page,
-          playerId: player.id,
-          language: language
+          playerId: player.id
         } 
       });
     } catch (error) {
@@ -131,8 +128,8 @@ export default function StartMenu() {
   };
 
   return (
-    <div className={`min-h-screen flex items-center justify-center p-4 bg-slate-50 relative ${language === 'ar' ? 'font-arabic' : ''}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
-      {showModal && <UsernameModal onSubmit={handleJoin} lang={language} />}
+    <div className="min-h-screen flex items-center justify-center p-4 bg-slate-50 relative">
+      {showModal && <UsernameModal onSubmit={handleJoin} />}
       <div className="bg-white p-8 md:p-12 rounded-2xl shadow-xl max-w-lg w-full text-center border border-slate-100 relative z-10">
         <div className="w-24 h-24 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <BookOpen className="w-12 h-12 text-primary-600" />
@@ -140,26 +137,6 @@ export default function StartMenu() {
         
         <h1 className="text-4xl font-black text-slate-800 mb-4 tracking-tight">{t('app_title')}</h1>
         
-        <div className="flex items-center justify-center gap-1 mb-6 p-1.5 bg-slate-100 rounded-xl inline-flex mx-auto" dir="ltr">
-          {[ 
-            { id: 'en', label: 'English' },
-            { id: 'fr', label: 'Français' },
-            { id: 'ar', label: 'العربية' }
-          ].map(lang => (
-            <button
-              key={lang.id}
-              onClick={() => {
-                setLanguage(lang.id);
-                localStorage.setItem('wiki_player_lang', lang.id);
-                setRoundInfo(null);
-                setTimeLeft(null);
-              }}
-              className={`px-4 py-2 rounded-lg font-bold text-sm transition-all focus:outline-none ${language === lang.id ? 'bg-white shadow-sm text-primary-600 ring-1 ring-primary-100' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'}`}
-            >
-              {lang.label}
-            </button>
-          ))}
-        </div>
 
         <p className="text-slate-600 mb-6 text-lg leading-relaxed">
           {t('intro_text')}
@@ -196,22 +173,7 @@ export default function StartMenu() {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
-              {roundInfo.round.start_genre && (
-                <div className="flex items-center gap-1.5 bg-emerald-100/50 text-emerald-800 px-3 py-1.5 rounded-xl text-[0.65rem] font-black border border-emerald-200/50 shadow-sm">
-                  <MapPin className="w-3 h-3" />
-                  <span>{t('genre')}: {t('genre_' + roundInfo.round.start_genre)}</span>
-                </div>
-              )}
-              {roundInfo.round.target_genre && (
-                <div className="flex items-center gap-1.5 bg-rose-100/50 text-rose-800 px-3 py-1.5 rounded-xl text-[0.65rem] font-black border border-rose-200/50 shadow-sm">
-                  <Target className="w-3 h-3" />
-                  <span>{t('genre')}: {t('genre_' + roundInfo.round.target_genre)}</span>
-                </div>
-              )}
-            </div>
-            
-            <div className={`flex flex-col gap-3 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+            <div className="flex flex-col gap-3 text-left">
               <div className="bg-white p-3 rounded-xl border border-emerald-100 flex items-center gap-3 shadow-sm">
                 {startImage ? (
                   <img src={startImage} alt={roundInfo.round.start_page} className="w-12 h-12 object-cover rounded-lg border border-slate-200 shrink-0 shadow-sm" />

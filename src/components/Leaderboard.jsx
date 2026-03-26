@@ -1,8 +1,8 @@
 import { Trophy, Clock, MousePointerClick, Medal } from 'lucide-react';
 import { useTranslation } from '../i18n';
 
-export default function Leaderboard({ leaderboard, currentPlayerId, lang = 'ar' }) {
-  const { t } = useTranslation(lang);
+export default function Leaderboard({ leaderboard, currentPlayerId }) {
+  const { t } = useTranslation();
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden sticky top-24">
       <div className="bg-slate-800 text-white p-4 flex items-center gap-2">
@@ -34,7 +34,7 @@ export default function Leaderboard({ leaderboard, currentPlayerId, lang = 'ar' 
                     </div>
                     <div>
                       <p className={`font-bold ${score.finished ? 'text-emerald-600' : 'text-slate-700'}`}>
-                        {score.player?.name || t('player')} {isCurrent && <span className="text-xs font-normal text-primary-500 mx-1">({lang === 'ar' ? 'أنت' : 'You'})</span>}
+                        {score.player?.name || t('player')} {isCurrent && <span className="text-xs font-normal text-primary-500 mx-1">(You)</span>}
                       </p>
                       <div className="flex items-center text-xs text-slate-500 gap-3 mt-1 font-medium">
                         <span className="flex items-center gap-1 bg-slate-100 px-1.5 py-0.5 rounded"><MousePointerClick className="w-3 h-3"/> {score.clicks}</span>
@@ -44,7 +44,7 @@ export default function Leaderboard({ leaderboard, currentPlayerId, lang = 'ar' 
                       </div>
                     </div>
                   </div>
-                  <div className={`${lang === 'ar' ? 'text-left' : 'text-right'} select-none`}>
+                  <div className="text-right select-none">
                     <span className={`block text-xl font-black ${score.finished ? 'text-emerald-600' : 'text-slate-800'}`}>{score.score}</span>
                     <span className="block text-[10px] uppercase tracking-wider text-slate-400 font-bold -mt-1">{t('score')}</span>
                   </div>
