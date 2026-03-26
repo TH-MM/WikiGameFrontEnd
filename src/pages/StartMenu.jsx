@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, Play, Shuffle, Clock, MapPin, Target } from 'lucide-react';
+import { BookOpen, Play, Shuffle, Clock, MapPin, Target, ArrowRight } from 'lucide-react';
 import UsernameModal from '../components/UsernameModal';
+import Leaderboard from '../components/Leaderboard';
 import { getCurrentRound, joinGame } from '../services/apiService';
 import { getArticleImage } from '../services/wikipediaService';
 import { useTranslation } from '../i18n';
@@ -128,104 +129,137 @@ export default function StartMenu() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-slate-50 relative">
+    <div className="h-screen bg-slate-50 relative p-4 flex items-center justify-center overflow-hidden">
       {showModal && <UsernameModal onSubmit={handleJoin} />}
-      <div className="bg-white p-8 md:p-12 rounded-2xl shadow-xl max-w-lg w-full text-center border border-slate-100 relative z-10">
-        <div className="w-24 h-24 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <BookOpen className="w-12 h-12 text-primary-600" />
-        </div>
-        
-        <h1 className="text-4xl font-black text-slate-800 mb-4 tracking-tight">{t('app_title')}</h1>
-        
+      
+      <div className="w-full max-w-5xl h-full max-h-[850px] grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch py-4">
+        {/* Left Side - Welcome & Current Round */}
+        <div className="lg:col-span-1 bg-white p-6 md:p-10 rounded-2xl shadow-xl text-center border border-slate-100 flex flex-col justify-between relative z-10 overflow-hidden">
+          <div className="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-6 rotate-3 shadow-inner shrink-0">
+            <BookOpen className="w-8 h-8 text-primary-600 -rotate-3" />
+          </div>
+          
+          <h1 className="text-4xl md:text-5xl font-black text-slate-800 mb-2 tracking-tighter shrink-0">{t('app_title')}</h1>
+          
+          <p className="text-slate-500 mb-6 text-base md:text-lg leading-relaxed max-w-2xl mx-auto font-medium shrink-0">
+            {t('intro_text')}
+          </p>
 
-        <p className="text-slate-600 mb-6 text-lg leading-relaxed">
-          {t('intro_text')}
-        </p>
+          <div className="max-w-[90%] mx-auto">
+            {savedName && (
+              <div className="bg-slate-50/50 rounded-2xl p-5 mb-8 border border-slate-200/60 flex items-center justify-between group">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm border border-slate-100">
+                    <span className="text-lg">👋</span>
+                  </div>
+                  <div className="text-left">
+                    <p className="text-[10px] uppercase tracking-widest font-black text-slate-400 leading-none mb-1">Signed in as</p>
+                    <p className="text-slate-800 font-black">{savedName}</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={handleLogout}
+                  disabled={loading}
+                  className="text-xs text-slate-400 hover:text-rose-500 font-black transition-colors uppercase tracking-widest opacity-0 group-hover:opacity-100"
+                >
+                  {t('change_name')}
+                </button>
+              </div>
+            )}
 
-        {savedName && (
-          <div className="bg-slate-50 rounded-xl p-4 mb-6 border border-slate-200 shadow-sm animate-in fade-in duration-300">
-            <p className="text-slate-700 font-bold mb-1">{t('welcome_back')} <span className="text-primary-600">{savedName}</span> 👋</p>
+            {roundInfo && roundInfo.is_active && (
+              <div className="bg-white py-6 px-4 rounded-3xl mb-6 border border-slate-100 shadow-sm animate-in fade-in zoom-in duration-500 flex-grow flex flex-col justify-center min-h-0">
+                <div className="flex items-center justify-center gap-1.5 mb-5 shrink-0">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <span className="text-[10px] uppercase tracking-widest font-black text-slate-400">{t('active_round')}</span>
+                  <div className="mx-2 h-4 w-px bg-slate-200"></div>
+                  <Clock className={`w-3.5 h-3.5 ${timeLeft <= 30 ? 'text-rose-500 animate-pulse' : 'text-slate-400'}`} />
+                  <span className={`text-xs font-black tabular-nums ${timeLeft <= 30 ? 'text-rose-600' : 'text-slate-600'}`}>
+                    {formatTime(timeLeft)}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between gap-2 md:gap-6 w-full max-w-[98%] mx-auto relative min-h-0 flex-nowrap">
+                  {/* Start Point */}
+                  <div className="flex flex-col items-center gap-1.5 flex-1 min-w-0">
+                    <div className="w-16 h-16 md:w-24 md:h-24 aspect-square rounded-full overflow-hidden border-[3px] border-primary-500 shadow-md relative z-10 transition-transform hover:scale-105 duration-300 ring-4 ring-white shrink-0">
+                      {startImage ? (
+                        <img src={startImage} alt={roundInfo.round.start_page} className="w-full h-full object-cover block" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-primary-100 text-primary-700 font-bold text-xl">
+                          {roundInfo.round.start_page.charAt(0)}
+                        </div>
+                      )}
+                    </div>
+                    <div className="text-center w-full">
+                      <p className="text-[8px] md:text-[9px] uppercase tracking-wider font-bold text-primary-500 mb-0.5">{t('start_point')}</p>
+                      <p className="font-black text-slate-800 leading-tight text-[10px] md:text-sm line-clamp-2">
+                        {roundInfo.round.start_page}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Arrow */}
+                  <div className="flex items-center justify-center shrink-0 mb-6">
+                    <div className="w-7 h-7 md:w-9 md:h-9 bg-slate-50 rounded-lg flex items-center justify-center border border-slate-200 text-slate-400 shadow-sm ring-2 ring-white">
+                      <ArrowRight className="w-3.5 h-3.5 md:w-4 h-4" />
+                    </div>
+                  </div>
+
+                  {/* Target Goal */}
+                  <div className="flex flex-col items-center gap-1.5 flex-1 min-w-0">
+                    <div className="w-16 h-16 md:w-24 md:h-24 aspect-square rounded-full overflow-hidden border-[3px] border-rose-500 shadow-md relative z-10 transition-transform hover:scale-105 duration-300 ring-4 ring-white shrink-0">
+                      {targetImage ? (
+                        <img src={targetImage} alt={roundInfo.round.target_page} className="w-full h-full object-cover block" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-rose-100 text-rose-700 font-bold text-xl">
+                          {roundInfo.round.target_page.charAt(0)}
+                        </div>
+                      )}
+                    </div>
+                    <div className="text-center w-full">
+                      <p className="text-[8px] md:text-[9px] uppercase tracking-wider font-bold text-rose-500 mb-0.5">{t('target_goal')}</p>
+                      <p className="font-black text-slate-800 leading-tight text-[10px] md:text-sm line-clamp-2">
+                        {roundInfo.round.target_page}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <button 
-              onClick={handleLogout}
-              disabled={loading}
-              className="text-sm text-slate-400 hover:text-rose-500 font-medium transition-colors"
+              onClick={initiateJoin}
+              disabled={loading || (timeLeft !== null && timeLeft > 150)}
+              className="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-5 px-8 rounded-2xl flex items-center justify-center gap-3 transition-all transform hover:scale-[1.01] active:scale-[0.99] shadow-2xl shadow-primary-500/40 disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed disabled:transform-none text-xl shrink-0"
             >
-              {t('change_name')}
+              {loading ? (
+                <>
+                  <Shuffle className="w-6 h-6 animate-spin" />
+                  <span>{t('loading')}...</span>
+                </>
+              ) : (timeLeft !== null && timeLeft > 150) ? (
+                <>
+                  <Clock className="w-6 h-6 animate-pulse" />
+                  <span>{t('starts_in')} {timeLeft - 150}s</span>
+                </>
+              ) : (
+                <>
+                  <Play className="w-6 h-6" />
+                  <span>{t('play_now')}</span>
+                </>
+              )}
             </button>
           </div>
-        )}
+        </div>
 
-        {roundInfo && roundInfo.is_active && (
-          <div className="bg-emerald-50 py-5 px-5 rounded-xl mb-6 border border-emerald-100 animate-in fade-in zoom-in duration-300">
-            <div className="text-emerald-700 font-bold flex items-center justify-between gap-2 mb-4 px-1">
-              <div className="flex items-center gap-2">
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                </span>
-                <span>{t('active_round')}</span>
-              </div>
-              <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-emerald-200 shadow-sm" dir="ltr">
-                <Clock className={`w-4 h-4 ${timeLeft <= 30 ? 'text-rose-500 animate-pulse' : 'text-emerald-600'}`} />
-                <span className={`font-black min-w-[3rem] text-center ${timeLeft <= 30 ? 'text-rose-600' : 'text-emerald-700'}`}>
-                  {formatTime(timeLeft)}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-3 text-left">
-              <div className="bg-white p-3 rounded-xl border border-emerald-100 flex items-center gap-3 shadow-sm">
-                {startImage ? (
-                  <img src={startImage} alt={roundInfo.round.start_page} className="w-12 h-12 object-cover rounded-lg border border-slate-200 shrink-0 shadow-sm" />
-                ) : (
-                  <div className="w-12 h-12 flex items-center justify-center bg-primary-50 text-primary-700 font-black text-xl rounded-lg border border-primary-100 shrink-0 shadow-inner">
-                    {roundInfo.round.start_page.charAt(0)}
-                  </div>
-                )}
-                <div>
-                  <p className="text-xs text-slate-500 font-medium mb-1">{t('start_point')}</p>
-                  <p className="font-bold text-slate-800 leading-snug">{roundInfo.round.start_page}</p>
-                </div>
-              </div>
-              <div className="bg-white p-3 rounded-xl border border-emerald-100 flex items-center gap-3 shadow-sm">
-                {targetImage ? (
-                  <img src={targetImage} alt={roundInfo.round.target_page} className="w-12 h-12 object-cover rounded-lg border border-slate-200 shrink-0 shadow-sm" />
-                ) : (
-                  <div className="w-12 h-12 flex items-center justify-center bg-rose-50 text-rose-700 font-black text-xl rounded-lg border border-rose-100 shrink-0 shadow-inner">
-                    {roundInfo.round.target_page.charAt(0)}
-                  </div>
-                )}
-                <div>
-                  <p className="text-xs text-rose-500 font-medium mb-1">{t('target_goal')}</p>
-                  <p className="font-bold text-rose-900 leading-snug">{roundInfo.round.target_page}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <button 
-          onClick={initiateJoin}
-          disabled={loading || (timeLeft !== null && timeLeft > 150)}
-          className="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-5 px-8 rounded-2xl flex items-center justify-center gap-3 transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-xl shadow-primary-500/30 disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed disabled:transform-none"
-        >
-          {loading ? (
-            <>
-              <Shuffle className="w-6 h-6 animate-spin" />
-              <span>{t('loading')}...</span>
-            </>
-          ) : (timeLeft !== null && timeLeft > 150) ? (
-            <>
-              <Clock className="w-6 h-6 animate-pulse" />
-              <span>{t('starts_in')} {timeLeft - 150}s</span>
-            </>
-          ) : (
-            <>
-              <Play className="w-6 h-6" />
-              <span>{t('play_now')}</span>
-            </>
-          )}
-        </button>
+        {/* Right Side - Leaderboard */}
+        <div className="lg:col-span-1 lg:h-full">
+          <Leaderboard currentPlayerId={savedId} />
+        </div>
       </div>
     </div>
   );

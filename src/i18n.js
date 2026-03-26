@@ -28,6 +28,10 @@ const translations = {
     thinking_phase: "Planning Phase",
     starts_in: "Round starts in",
     intro_text: "Navigate from a Wikipedia article to the target using only internal links. Compete against others in real-time for the fastest time and fewest clicks!",
+    day: "Day",
+    week: "Week",
+    all_time: "All Time",
+    round_tab: "Round",
   }
 };
 
